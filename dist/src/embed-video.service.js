@@ -52,7 +52,7 @@ var EmbedVideoService = /** @class */ (function () {
         }
     };
     EmbedVideoService.prototype.embed_facebook = function (id, options) {
-        return this.sanitize_iframe('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F$' +
+        return this.sanitize_iframe('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F' +
             id + '" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>');
     };
     EmbedVideoService.prototype.embed_youtube = function (id, options) {

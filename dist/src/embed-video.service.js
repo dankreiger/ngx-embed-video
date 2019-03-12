@@ -1,4 +1,13 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/common/http");
@@ -53,7 +62,8 @@ var EmbedVideoService = /** @class */ (function () {
     };
     EmbedVideoService.prototype.embed_facebook = function (id, options) {
         return this.sanitize_iframe('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F' +
-            id + '" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>');
+            id + '&width=' + options.width + '&show_text=false&height=' + options.height +
+            '" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>');
     };
     EmbedVideoService.prototype.embed_youtube = function (id, options) {
         options = this.parseOptions(options);
@@ -191,14 +201,11 @@ var EmbedVideoService = /** @class */ (function () {
         }
         return '';
     };
-    EmbedVideoService.decorators = [
-        { type: core_1.Injectable },
-    ];
-    /** @nocollapse */
-    EmbedVideoService.ctorParameters = function () { return [
-        { type: http_1.HttpClient },
-        { type: platform_browser_1.DomSanitizer }
-    ]; };
+    EmbedVideoService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.HttpClient,
+            platform_browser_1.DomSanitizer])
+    ], EmbedVideoService);
     return EmbedVideoService;
 }());
 exports.EmbedVideoService = EmbedVideoService;

@@ -61,9 +61,9 @@ export class EmbedVideoService {
 
   public embed_facebook(id: string, options?: any): string {
 
-    return(
-      `<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F${id}" 
-        scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>`
+    return this.sanitize_iframe(
+      '<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F$' + 
+        id  + 'scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>'
     )
   }
 

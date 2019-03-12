@@ -38,6 +38,11 @@ export class EmbedVideoService {
     let id;
     url = new URL(url);
 
+    id = this.detectFacebook(url);
+    if(id) {
+      return this.embed_facebook(id, options);
+    }
+
     id = this.detectYoutube(url);
     if (id) {
       return this.embed_youtube(id, options);
@@ -52,6 +57,14 @@ export class EmbedVideoService {
     if (id) {
       return this.embed_dailymotion(id, options);
     }
+  }
+
+  public embed_facebook(id: string, options?: any): string {
+
+    return(
+      `<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F${id}" 
+        scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>`
+    )
   }
 
   public embed_youtube(id: string, options?: any): string {
@@ -199,6 +212,13 @@ export class EmbedVideoService {
 
   private detectVimeo(url: any): string {
     return (url.hostname === 'vimeo.com') ? url.pathname.split('/')[1] : null;
+  }
+
+  private detectFacebook(url: any): string {
+    if (url.hostname.indexOf('facebook.com') > -1) {
+      return url.split('?v=').pop();
+    }
+    return '';
   }
 
   private detectYoutube(url: any): string {

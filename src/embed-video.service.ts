@@ -215,8 +215,8 @@ export class EmbedVideoService {
   }
 
   private detectFacebook(url: any): string {
-    if (url.hostname.indexOf('facebook.com') > -1) {
-      return url.split('?v=').pop();
+    if (url.hostname.indexOf('facebook.com') > -1 && url.href) {
+      return url.href.split('?v=').pop();
     }
     return '';
   }

@@ -62,8 +62,9 @@ var EmbedVideoService = /** @class */ (function () {
     };
     EmbedVideoService.prototype.embed_facebook = function (id, options) {
         return this.sanitize_iframe('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F' +
-            id + '&width=' + options.width + '&show_text=false&height=' + options.height +
-            '" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>');
+            id + '&width=' + options.facebook.width + '&show_text=false&height=' + options.facebook.height +
+            '" width="' + options.facebook.width + '" height="' + options.facebook.height + '" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" ' +
+            'allow="encrypted-media" allowFullScreen="true"></iframe>');
     };
     EmbedVideoService.prototype.embed_youtube = function (id, options) {
         options = this.parseOptions(options);

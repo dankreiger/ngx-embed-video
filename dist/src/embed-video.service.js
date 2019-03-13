@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -61,10 +69,28 @@ var EmbedVideoService = /** @class */ (function () {
         }
     };
     EmbedVideoService.prototype.embed_facebook = function (id, options) {
-        return this.sanitize_iframe('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F' +
-            id + '&width=' + options.facebook.width + '&show_text=false&height=' + options.facebook.height +
-            '" width="' + options.facebook.width + '" height="' + options.facebook.height + '" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" ' +
-            'allow="encrypted-media" allowFullScreen="true"></iframe>');
+        var fbBaseUrl = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F';
+        if (options) {
+            if (options.attr) {
+                delete options.attr.width;
+                delete options.attr.height;
+                if (!options.facebook) {
+                    console.error('FACEBOOK ERROR: Width/height MUST BE specified in a facebook object: e.g. facebook: { width: 500, height: 280 }');
+                }
+                else if (!options.facebook.width) {
+                    console.error('FACEBOOK ERROR: Facebook object must contain a width attribute e.g. facebook: { width: 500, height: 280 }');
+                }
+                else if (!options.facebook.height) {
+                    console.error('FACEBOOK ERROR: Facebook object must contain a height attribute e.g. facebook: { width: 500, height: 280 }');
+                }
+            }
+            options.attr = __assign({}, options.attr, { style: 'border:none;overflow:hidden', scrolling: 'no', frameborder: '0', allowTransparency: true, allow: 'encrypted-media', allowFullScreen: true }, (options.facebook && options.facebook.width && { width: options.facebook.width }), (options.facebook && options.facebook.height && { height: options.facebook.height }));
+            options.query = __assign({}, options.query, { show_text: false }, (options.facebook && options.facebook.width && { width: options.facebook.width }), (options.facebook && options.facebook.height && { height: options.facebook.height }));
+        }
+        options = this.parseOptions(options);
+        return this.sanitize_iframe('<iframe src="' + fbBaseUrl
+            + id + options.query + '"' + options.attr
+            + '></iframe>');
     };
     EmbedVideoService.prototype.embed_youtube = function (id, options) {
         options = this.parseOptions(options);

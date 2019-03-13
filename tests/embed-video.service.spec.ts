@@ -114,15 +114,15 @@ describe('EmbedVideoService', () => {
     inject([EmbedVideoService, DomSanitizer], (embedVideoService, sanitizer) => {
 
       expect(embedVideoService.embed_facebook('1545802115475031', { query: { rel: 0, showinfo: 0 }, attr: { allow: 'autoplay; encrypted-media'} })).toEqual(
-        sanitizer.bypassSecurityTrustHtml('<iframe src="https://www.youtube.com/embed/9XeNNqeHVDw?rel=0&showinfo=0" allow="autoplay; encrypted-media" frameborder="0" allowfullscreen></iframe>')
+        sanitizer.bypassSecurityTrustHtml('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F1545802115475031?rel=0&showinfo=0&show_text=false" allow="encrypted-media" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>')
       )
     }));
 
-  fit('applies width and height via facebook object',
+  it('applies width and height via facebook object',
     inject([EmbedVideoService, DomSanitizer], (embedVideoService, sanitizer) => {
 
       expect(embedVideoService.embed_facebook('1545802115475031', { query: { rel: 0, showinfo: 0 }, attr: { allow: 'autoplay; encrypted-media' }, facebook: { width: 500, height: 280 } })).toEqual(
-        sanitizer.bypassSecurityTrustHtml('<iframe src="https://www.youtube.com/embed/9XeNNqeHVDw?rel=0&showinfo=0" allow="autoplay; encrypted-media" frameborder="0" allowfullscreen></iframe>')
+        sanitizer.bypassSecurityTrustHtml('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F1545802115475031?rel=0&showinfo=0&show_text=false&width=500&height=280" allow="encrypted-media" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true" width="500" height="280"></iframe>')
       )
     }));
 
@@ -131,7 +131,7 @@ describe('EmbedVideoService', () => {
       spyOn(console, 'error');
 
       embedVideoService.embed_facebook('1545802115475031', { query: { rel: 0, showinfo: 0 }, attr: { width: 400, height: 200 } });
-      expect(console.error).toHaveBeenCalledWith('FACEBOOK ERROR: Width and height attributes for facebook embeds MUST BE specified in a facebook object: e.g. facebook: { width: 500, height: 280 }');
+      expect(console.error).toHaveBeenCalledWith('FACEBOOK ERROR: Width/height MUST BE specified in a facebook object: e.g. facebook: { width: 500, height: 280 }');
 
       // removes any existing width and height attributes
       expect(embedVideoService.embed_facebook('1545802115475031', { query: { rel: 0, showinfo: 0 } })).toEqual(

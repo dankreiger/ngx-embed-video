@@ -62,14 +62,14 @@ export class EmbedVideoService {
   public embed_facebook(id: string, options?: any): string {
     const fbBaseUrl = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F';
     if (options) {
-      if (options.attr){
+      if (options.attr) {
         delete options.attr.width;
         delete options.attr.height;
         if (!options.facebook) {
-          console.error('FACEBOOK ERROR: Width and height attributes for facebook embeds MUST BE specified in a facebook object: e.g. facebook: { width: 500, height: 280 }');
-        } else if(!options.facebook.width) {
+          console.error('FACEBOOK ERROR: Width/height MUST BE specified in a facebook object: e.g. facebook: { width: 500, height: 280 }');
+        } else if (!options.facebook.width) {
           console.error('FACEBOOK ERROR: Facebook object must contain a width attribute e.g. facebook: { width: 500, height: 280 }');
-        } else if(!options.facebook.height) {
+        } else if (!options.facebook.height) {
           console.error('FACEBOOK ERROR: Facebook object must contain a height attribute e.g. facebook: { width: 500, height: 280 }');
         }
       }

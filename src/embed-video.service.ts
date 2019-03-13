@@ -39,7 +39,7 @@ export class EmbedVideoService {
     url = new URL(url);
 
     id = this.detectFacebook(url);
-    if(id) {
+    if (id) {
       return this.embed_facebook(id, options);
     }
 
@@ -60,13 +60,44 @@ export class EmbedVideoService {
   }
 
   public embed_facebook(id: string, options?: any): string {
+    const fbBaseUrl = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F';
+    if (options) {
+      if (options.attr){
+        delete options.attr.width;
+        delete options.attr.height;
+        if (!options.facebook) {
+          console.error('FACEBOOK ERROR: Width and height attributes for facebook embeds MUST BE specified in a facebook object: e.g. facebook: { width: 500, height: 280 }');
+        } else if(!options.facebook.width) {
+          console.error('FACEBOOK ERROR: Facebook object must contain a width attribute e.g. facebook: { width: 500, height: 280 }');
+        } else if(!options.facebook.height) {
+          console.error('FACEBOOK ERROR: Facebook object must contain a height attribute e.g. facebook: { width: 500, height: 280 }');
+        }
+      }
+      options.attr = {
+        ...options.attr,
+        style: 'border:none;overflow:hidden',
+        scrolling: 'no',
+        frameborder: '0',
+        allowTransparency: true,
+        allow: 'encrypted-media',
+        allowFullScreen: true,
+        ...(options.facebook && options.facebook.width && { width: options.facebook.width }),
+        ...(options.facebook && options.facebook.height && { height: options.facebook.height })
+       }
 
-    return this.sanitize_iframe(
-      '<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F' +
-        id + '&width='+options.facebook.width+'&show_text=false&height='+options.facebook.height+
-        '" width="'+options.facebook.width+'" height="'+options.facebook.height+'" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" '+
-        'allow="encrypted-media" allowFullScreen="true"></iframe>'
-    )
+      options.query = {
+        ...options.query,
+        show_text: false,
+        ...(options.facebook && options.facebook.width && { width: options.facebook.width }),
+        ...(options.facebook && options.facebook.height && { height: options.facebook.height })
+      }
+    }
+
+
+    options = this.parseOptions(options);
+    return this.sanitize_iframe('<iframe src="' + fbBaseUrl
+    + id + options.query + '"' + options.attr
+    + '></iframe>');
   }
 
   public embed_youtube(id: string, options?: any): string {

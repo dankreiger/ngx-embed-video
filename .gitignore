@@ -1,7 +1,7 @@
 # Node
 node_modules/*
 npm-debug.log
-dist/
+dist
 
 # JetBrains
 .idea
@@ -23,4 +23,3 @@ Desktop.ini
 
 # Ngc generated files
 **/*.ngfactory.ts
-dist/

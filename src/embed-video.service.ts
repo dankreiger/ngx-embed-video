@@ -83,7 +83,7 @@ export class EmbedVideoService {
         allowFullScreen: true,
         ...(options.facebook && options.facebook.width && { width: options.facebook.width }),
         ...(options.facebook && options.facebook.height && { height: options.facebook.height })
-       }
+      }
 
       options.query = {
         ...options.query,
@@ -96,8 +96,8 @@ export class EmbedVideoService {
 
     options = this.parseOptions(options);
     return this.sanitize_iframe('<iframe src="' + fbBaseUrl
-    + id + options.query + '"' + options.attr
-    + '></iframe>');
+      + id + options.query + '"' + options.attr
+      + '></iframe>');
   }
 
   public embed_youtube(id: string, options?: any): string {
@@ -249,7 +249,11 @@ export class EmbedVideoService {
 
   private detectFacebook(url: any): string {
     if (url.hostname.indexOf('facebook.com') > -1 && url.href) {
-      return url.href.split('?v=').pop();
+      if (url.href.indexOf('?v=') > -1) {
+        return url.href.split('?v=').pop().replace('/', '');
+      } else {
+        return url.href.split('videos/')[1].replace('/', '');
+      }
     }
     return '';
   }

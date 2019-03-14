@@ -30,13 +30,21 @@ describe('EmbedVideoService', () => {
       )
     }));
 
-  it('converts facebook url',
-  inject([EmbedVideoService, DomSanitizer], (embedVideoService, sanitizer) => {
+  it('converts facebook url with ?v param',
+    inject([EmbedVideoService, DomSanitizer], (embedVideoService, sanitizer) => {
 
-    expect(embedVideoService.embed('https://www.facebook.com/watch/?v=1545802115475031')).toEqual(
-      sanitizer.bypassSecurityTrustHtml('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F1545802115475031"></iframe>')
-    )
-  }));
+      expect(embedVideoService.embed('https://www.facebook.com/watch/?v=1545802115475031')).toEqual(
+        sanitizer.bypassSecurityTrustHtml('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F1545802115475031"></iframe>')
+      )
+    }));
+
+  it('converts facebook url with normal videos path',
+    inject([EmbedVideoService, DomSanitizer], (embedVideoService, sanitizer) => {
+
+      expect(embedVideoService.embed('https://www.facebook.com/MercedesBenz/videos/10155716373856670/')).toEqual(
+        sanitizer.bypassSecurityTrustHtml('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F10155716373856670"></iframe>')
+      )
+    }));
 
   it('converts youtube.com url',
     inject([EmbedVideoService, DomSanitizer], (embedVideoService, sanitizer) => {
@@ -113,7 +121,7 @@ describe('EmbedVideoService', () => {
   it('accepts attributes facebook',
     inject([EmbedVideoService, DomSanitizer], (embedVideoService, sanitizer) => {
 
-      expect(embedVideoService.embed_facebook('1545802115475031', { query: { rel: 0, showinfo: 0 }, attr: { allow: 'autoplay; encrypted-media'} })).toEqual(
+      expect(embedVideoService.embed_facebook('1545802115475031', { query: { rel: 0, showinfo: 0 }, attr: { allow: 'autoplay; encrypted-media' } })).toEqual(
         sanitizer.bypassSecurityTrustHtml('<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Ffacebook%2Fvideos%2F1545802115475031?rel=0&showinfo=0&show_text=false" allow="encrypted-media" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>')
       )
     }));

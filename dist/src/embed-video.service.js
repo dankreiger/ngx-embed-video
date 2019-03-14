@@ -209,7 +209,12 @@ var EmbedVideoService = /** @class */ (function () {
     };
     EmbedVideoService.prototype.detectFacebook = function (url) {
         if (url.hostname.indexOf('facebook.com') > -1 && url.href) {
-            return url.href.split('?v=').pop();
+            if (url.href.indexOf('?v=') > -1) {
+                return url.href.split('?v=').pop().replace('/', '');
+            }
+            else {
+                return url.href.split('videos/')[1].replace('/', '');
+            }
         }
         return '';
     };
